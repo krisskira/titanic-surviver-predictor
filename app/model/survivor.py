@@ -1,6 +1,8 @@
 from typing import List, Any
 from pydantic import BaseModel
 
+class Chat(BaseModel):
+    message: str
 class Survivor(BaseModel):
     pclass: int
     sex: int

@@ -1,10 +1,11 @@
-from app.model.survivor import Survivor
+from app.model.survivor import Chat, Survivor
 from fastapi import FastAPI, Body, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.templating import Jinja2Templates
 from app.core import predict as cp
+from app.core import chat as cc
 
 app = FastAPI(
     title="Titanic Survive Predictor",
@@ -41,8 +42,16 @@ def index(request: Request):
         request=request, name="index.html", context={}
     )
 
+
 @app.post("/api/v1/predict", response_class=JSONResponse)
 async def predict(payload: Survivor = Body(None)):
     print(">>> Payload", payload)
     result = await cp.predict(payload)
     return {"result": result}
+
+
+@app.post("/api/v1/chat", response_class=JSONResponse)
+async def chat(payload: Chat = Body(None)):
+    message = payload.message
+    response = await cc.chatting(message)
+    return {"message": response}

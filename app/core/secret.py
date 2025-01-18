@@ -1,0 +1,1 @@
+OPENAI_API_KEY = "<Coloque aqui su clave de OpenAI>"
